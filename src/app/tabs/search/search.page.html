@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title slot="start" class="tool-title">
+      <ion-icon name="search-outline"></ion-icon>
+      Search
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      show-clear-button="focus"
+      [(ngModel)]="filterTerm"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list lines="full">
+    <ion-item
+      button
+      detail="true"
+      (click)="setCartData(res); addToCart(cartData); setOpenToast(true)"
+      *ngFor="let res of results | filter:filterTerm"
+    >
+      <ion-thumbnail slot="start">
+        <img alt="Image of {{res.name}}." src="{{res.image}}" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{res.name}}</h2>
+        <p>{{res.distance}}km's away</p>
+        <ion-chip [outline]="true">
+          {{res.rating}}
+          <ion-icon name="star"></ion-icon
+        ></ion-chip>
+        <ion-chip> {{res.type}} </ion-chip>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-toast
+    [isOpen]="isToastOpen"
+    message="Item added to your cart!"
+    [duration]="5000"
+    (didDismiss)="setOpenToast(false)"
+  ></ion-toast>
+</ion-content>
