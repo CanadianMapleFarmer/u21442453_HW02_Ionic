@@ -21,15 +21,6 @@ export class SearchPage implements OnInit {
       this.restaurants = restaurants;
     });
     this.results = [...this.restaurants];
-    console.log(this.restaurants);
-  }
-
-  getRestaurant(id: number): Restaurant {
-    this.dataService.getRestaurant(id).subscribe((restaurant: any) => {
-      this.restaurant = restaurant;
-    });
-    return this.restaurant;
-    console.log(this.restaurant);
   }
 
   setOpenToast(isOpen: boolean) {

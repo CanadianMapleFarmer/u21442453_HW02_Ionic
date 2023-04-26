@@ -7,4 +7,99 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"></ion-content>
+<ion-content [fullscreen]="true">
+  <div *ngIf="isCartEmpty()">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label lines="none">
+          <h1>Cart is currently empty</h1>
+          <p>Please add an item to your cart.</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="cart" *ngIf="!isCartEmpty()">
+    <ion-list lines="none">
+      <ion-item color="primary">
+        <ion-thumbnail slot="start">
+          <img src="{{cart.dishImage}}" alt="Image of {{cart.dish}}" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{cart.dish}}</h2>
+          <p>Amount ordered: <ion-chip>{{cart.quantity}}</ion-chip></p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="create-outline"></ion-icon>
+        <ion-item>
+          <ion-input
+            label="Delivery Instructions"
+            label-placement="floating"
+            placeholder="Type here..."
+          ></ion-input>
+        </ion-item>
+      </ion-item>
+      <ion-item color="light" lines="full">
+        <p slot="start">Subtotal:</p>
+        <p slot="end">R{{values.SubTotal}}</p>
+      </ion-item>
+      <ion-item color="light" lines="full">
+        <p slot="start">Delivery Fee:</p>
+        <p slot="end">R{{values.DeliveryFee}}</p>
+      </ion-item>
+      <ion-item color="tertiary" lines="full">
+        <p slot="start">Total due:</p>
+        <p slot="end">R{{values.PaymentTotal}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<div *ngIf="!isCartEmpty()">
+  <ion-footer slot="bottom">
+    <ion-item>
+      <ion-icon name="home-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Deliver to Office</h2>
+        <p>University of Pretoria, IT Building</p>
+      </ion-label>
+      <ion-button fill="clear" color="light" slot="end">EDIT</ion-button>
+    </ion-item>
+  </ion-footer>
+  <ion-footer slot="bottom">
+    <ion-item>
+      <ion-chip slot="start" color="primary" [outline]="true"
+        >Total: R{{values.PaymentTotal}}</ion-chip
+      >
+      <ion-button
+        slot="end"
+        size="small"
+        shape="round"
+        color="primary"
+        (click)="setOpen(true); clearCart(); createCartHistory();"
+        >Pay Order</ion-button
+      >
+    </ion-item>
+  </ion-footer>
+</div>
+<div *ngIf="!isCartEmpty()">
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Payment</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Payment was successful!</ion-card-title>
+          </ion-card-header>
+          <ion-card-content> Thank you for ordering with us! </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</div>

@@ -20,36 +20,25 @@ export class HomePage implements OnInit {
     this.dataService.getRestaurants().subscribe((restaurants: any) => {
       this.restaurants = restaurants;
     });
-    console.log(this.restaurants);
   }
 
-  getRestaurant(id: number): Restaurant {
-    this.dataService.getRestaurant(id).subscribe((restaurant: any) => {
-      this.restaurant = restaurant;
-    });
-    return this.restaurant;
-    console.log(this.restaurant);
-  }
-
-  setOpen(isOpen: boolean) {
+  setOpen(isOpen: boolean): void {
     this.isModalOpen = isOpen;
   }
 
-  setOpenToast(isOpen: boolean) {
+  setOpenToast(isOpen: boolean): void {
     this.isToastOpen = isOpen;
   }
 
-  setModalData(res: Restaurant) {
+  setModalData(res: Restaurant): void {
     this.modalData = res;
   }
 
-  setCartData(res: any) {
+  setCartData(res: any): void {
     this.cartData = res;
   }
 
-  addToCart(res: any) {
-    this.dataService.addToCart(res).subscribe((res: any) => {
-      console.log(res);
-    });
+  addToCart(res: any): void {
+    this.dataService.addToCart(res);
   }
 }

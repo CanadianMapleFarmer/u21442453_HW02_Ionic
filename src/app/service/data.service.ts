@@ -108,6 +108,10 @@ export class DataService {
   }
 
   addToCart(res: any): Observable<any> {
+    if (res.quantity !== undefined || null) {
+      localStorage.removeItem('cart');
+      localStorage.setItem('cart', JSON.stringify(res));
+    }
     if (!localStorage.getItem('cart')) {
       res['quantity'] = 1;
       localStorage.setItem('cart', JSON.stringify(res));
@@ -122,5 +126,62 @@ export class DataService {
     }
     let cart = JSON.parse(localStorage.getItem('cart')!);
     return of(cart);
+  }
+
+  getCart(): Observable<any> {
+    let res: any;
+    if (!localStorage.getItem('cart')) {
+      res = undefined;
+    } else {
+      res = JSON.parse(localStorage.getItem('cart')!);
+    }
+
+    return of(res);
+  }
+
+  clearCart(): void {
+    localStorage.removeItem('cart');
+  }
+
+  createCartHistory(res: Restaurant, total: number, date: string): void {
+    (res['totalHistory'] = total), (res['dateTimeHistory'] = date);
+    localStorage.setItem('cartHistory', JSON.stringify(res));
+  }
+
+  getCartHistory(): Observable<any> {
+    let res: Restaurant;
+    res = JSON.parse(localStorage.getItem('cartHistory')!);
+
+    return of(res);
+  }
+
+  historyExists(): boolean {
+    if (!localStorage.getItem('cartHistory')) {
+      return false;
+    } else return true;
+  }
+
+  clearCartHistory(): void {
+    localStorage.removeItem('cartHistory');
+  }
+
+  updateUser(name: string, cell: string, email: string) {
+    if ((name && cell && email !== undefined) || null) {
+      let user: user = {
+        id: 1,
+        full_name: name,
+        cellNum: cell,
+        email: email,
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      let user = {
+        id: 1,
+        full_name: 'Rowdy Peterson',
+        cellNum: '075 145 8569',
+        email: 'rowdypeterson@mail.com',
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+    }
   }
 }
